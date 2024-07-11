@@ -1,44 +1,43 @@
-'use client'
-import { signIn, useSession } from 'next-auth/react';
-import React from 'react'
-import { Button } from '../ui/button';
-import Link from 'next/link';
-import Profile from './Profile';
-import Image from 'next/image';
-import Ima from '@/public/images/css-3.png'
-import Notification from './Notifications';
+"use client";
+import { signIn, useSession } from "next-auth/react";
+import React from "react";
+import { Button } from "../ui/button";
+import Link from "next/link";
+import Profile from "./Profile";
+import Notification from "./Notifications";
+import { usePathname } from "next/navigation";
+import { ModeToggle } from "../toggleMode";
 
 const Navbar = () => {
-    const session = useSession();
-    if(!session) return null
-   const userId = session?.status === 'authenticated';
+  const session = useSession();
+  const pathname = usePathname();
+  if (!session) return null;
+  const userId = session?.status === "authenticated";
 
   return (
-     <nav className="flex justify-center w-full py-7 bg-transparent z-10 absolute">
+    <nav
+      className={`flex justify-center w-full py-7 bg-transparent z-10 ${
+        pathname === "/" ? "absolute" : ""
+      }`}
+    >
       <div className="container  flex justify-between items-center">
         <div className="flex items-center gap-12">
-        <Link href="/" className="flex">
-        {/* <Image
-          src={Ima}
-          width={23}
-          height={23}
-          alt="Dev"
-          className='object-cover'
-        /> */}
-        <p className="font-bold text-3xl ml-2">
-          Bid<span className="text-primary">Buddy</span>
-        </p>
-      </Link>
-
-
+          <Link href="/" className="flex">
+            <p className="font-bold text-3xl ml-2">
+              Bid<span className="text-primary">Buddy</span>
+            </p>
+          </Link>
           <div className="md:flex md:items-center gap-8 hidden">
-            <Link href="/" className="hover:text-primary transition-all duration-150 flex items-center gap-1">
+            <Link
+              href="/"
+              className="hover:text-primary transition-all duration-150 flex items-center gap-1"
+            >
               All Auctions
             </Link>
             {userId && (
-              <div className='flex gap-8'>
+              <div className="flex gap-8">
                 <Link
-                  href="/items/create"
+                  href="/bids/create"
                   className="hover:text-primary transition-all duration-150 flex items-center gap-1"
                 >
                   Create Auction
@@ -55,19 +54,19 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex items-center gap-4">
-        {userId ? (
-            <div className='flex gap-4'>
-                <Notification />
-              <Profile
-              />
+          {userId ? (
+            <div className="flex gap-4">
+              <ModeToggle />
+              <Notification />
+              <Profile />
             </div>
-            ) : (
-              <Button type="submit" onClick={() => signIn()}>
-                Sign In
-              </Button>
-            )}
-          </div>
-          {/* {userId && (
+          ) : (
+            <Button type="submit" onClick={() => signIn()}>
+              Sign In
+            </Button>
+          )}
+        </div>
+        {/* {userId && (
             <>
               <NotificationIconButton
                 ref={notifButtonRef}
@@ -97,11 +96,9 @@ const Navbar = () => {
               />
             </>
           )} */}
+      </div>
+    </nav>
+  );
+};
 
-        </div>
-    </nav> 
-
-  )
-}
-
-export default Navbar
+export default Navbar;
