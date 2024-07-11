@@ -3,7 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '@/app/firebaseConfig';
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -17,22 +18,66 @@ import {
 import { Input } from "@/components/ui/input";
 import { PostItemformSchema } from "@/lib/validations";
 import { createItemAction } from "@/lib/actions";
+import { useEffect, useState } from "react";
+import { calculateSizeAdjustValues } from "next/dist/server/font-utils";
+import Spinner from "../spinner";
 
 export function PostItem() {
+    const [file, setFile] = useState<File | null>(null); // State to store the selected file
+    const [uploadedUrl, setUploadedUrl] = useState<string | null>(null); // State to store the uploaded image URL
+    const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm<z.infer<typeof PostItemformSchema>>({
     resolver: zodResolver(PostItemformSchema),
     defaultValues: {
       name: "",
       startingPrice: "",
+      file: "",
     },
   });
+
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+     setFile(event.target.files?.[0]!);
+  }
+
+  const handleUpload = async() => {
+    if (file){
+        const storageRef = ref(storage, `images/${file.name}`); // Create a reference to the file in Firebase Storage
+
+        try {
+            await uploadBytes(storageRef, file); // Upload the file to Firebase Storage
+            const url = await getDownloadURL(storageRef); // Get the download URL of the uploaded file
+            console.log("File Uploaded Successfully");
+            return url;
+            // setUploadedUrl(url); // Set the uploaded image URL
+            // Update form value with the uploaded URL
+            // form.clearErrors('file'); 
+        } catch (error) {
+            console.error('Error uploading the file', error);
+        }
+    }
+};
+
+// useEffect(() => {
+//     if (uploadedUrl) {
+//         form.setValue('file', uploadedUrl); // Update form value with the uploaded URL
+//     }
+// }, [uploadedUrl, form]);
+
   async function onSubmit(data: z.infer<typeof PostItemformSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    setIsSubmitting(true);
     try {
-      await createItemAction(data);
+       const fileUrl =  await handleUpload()
+       if(fileUrl !== null){
+          await createItemAction({...data, file: fileUrl!});
+        console.log({...data,file: fileUrl!})
+    }
     } catch (error) {
       console.error("Error creating item:", error);
+    } finally {
+        setIsSubmitting(false);
     }
   }
   return (
@@ -77,7 +122,24 @@ export function PostItem() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <FormField
+                control={form.control}
+                name="file"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Choose the File</FormLabel>
+                        <FormControl>
+                            <Input
+                                type="file"
+                                {...field}
+                                onChange={handleFileChange}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+        <Button type="submit"> {isSubmitting ? <>Submitting <Spinner /></> : 'Submit'}</Button>
       </form>
     </Form>
   );

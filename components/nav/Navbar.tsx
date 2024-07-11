@@ -29,8 +29,8 @@ const Navbar = () => {
           </Link>
           <div className="md:flex md:items-center gap-8 hidden">
             <Link
-              href="/"
-              className="hover:text-primary transition-all duration-150 flex items-center gap-1"
+              href="/all-auctions"
+              className={`hover:text-primary transition-all duration-150 flex items-center gap-1 ${pathname === '/all-auctions' ? 'text-primary' : ''}`}
             >
               All Auctions
             </Link>
@@ -38,7 +38,7 @@ const Navbar = () => {
               <div className="flex gap-8">
                 <Link
                   href="/bids/create"
-                  className="hover:text-primary transition-all duration-150 flex items-center gap-1"
+                  className={`hover:text-primary transition-all duration-150 flex items-center gap-1 ${pathname === '/bids/create' ? 'text-primary' : ''}`}
                 >
                   Create Auction
                 </Link>

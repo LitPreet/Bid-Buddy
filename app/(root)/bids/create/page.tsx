@@ -6,12 +6,13 @@ import { Input } from "@/components/ui/input";
 import { createItemAction } from '@/lib/actions';
 import { DatePickerDemo } from '@/components/date-picker';
 import { PostItem } from '@/components/forms/PostItem';
+import Image from 'next/image';
 
 
 const page = async() => {
     // const [date, setDate] = useState<Date | undefined>();
   // const bidsItems = await database.query.bids.findMany();
-  const allItems = await database.query.items.findMany();
+ 
   return (
     <section className="w-full bg-red-300 flex justify-center flex-col items-center">
       <h1 className="text-4xl font-bold my-3">Post an Item</h1>
@@ -22,12 +23,7 @@ const page = async() => {
           <ItemCard key={item.id} item={item} />
         ))}
       </div> */}
-      {allItems?.map((item) => (
-        <>
-        <div key={item.id} className="text-black">{item.name}</div>
-        <div key={item.id} className="text-black">{item.startingPrice}</div>
-        </>
-      ))}
+     
     </section>
   )
 }
