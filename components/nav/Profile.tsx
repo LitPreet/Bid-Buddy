@@ -38,10 +38,10 @@ function Profile() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup className='block md:hidden'>
         <DropdownMenuItem>
-           <Link href="/" className='my-1'>All Auctions</Link>
+           <Link href="/all-auctions" className='my-1'>All Auctions</Link>
            </DropdownMenuItem>
            <DropdownMenuItem><Link href="/items/create" className='my-1'>Create Auction</Link>  </DropdownMenuItem>
-           <DropdownMenuItem><Link  href="/auctions" className='my-1'>My Auctions</Link>
+           <DropdownMenuItem><Link  href="/my-auctions" className='my-1'>My Auctions</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         </DropdownMenuGroup>

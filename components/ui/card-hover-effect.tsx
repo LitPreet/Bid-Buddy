@@ -4,6 +4,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { Lock } from "lucide-react";
+import { Button } from "./button";
+import { formatToDollar } from "@/lib/currency";
 
 export const HoverEffect = ({
   items,
@@ -62,8 +65,11 @@ export const HoverEffect = ({
               className="rounded-md"
             />
           </div>
+          <div className="flex justify-between items-center w-full mt-3">
             <CardTitle className="text-black dark:text-white font-semibold">{item?.name}</CardTitle>
-            <CardDescription>${item?.startingPrice}</CardDescription>
+            <CardDescription>${formatToDollar(item?.startingPrice)}</CardDescription>
+          </div>
+          <Link href={`/items/${item.id}`}  className="w-full rounded-full p-2 flex items-center justify-center font-semibold text-sm mt-2 mb-0 bg-black dark:bg-gray-200 hover:bg-primary hover:dark:bg-primary hover:dark:text-white duration-150 transition-all text-white dark:text-gray-800"><Lock size={16} className="mr-1"/> Place Bid</Link>
           </Card>
         </div>
       ))}
@@ -99,7 +105,7 @@ export const CardTitle = ({
   children: React.ReactNode;
 }) => {
   return (
-    <h4 className={cn("text-zinc-100 font-bold tracking-wide mt-4", className)}>
+    <h4 className={cn("text-zinc-100 font-bold tracking-wide mt-0", className)}>
       {children}
     </h4>
   );
@@ -114,7 +120,7 @@ export const CardDescription = ({
   return (
     <p
       className={cn(
-        "mt-8 text-zinc-400 tracking-wide leading-relaxed text-sm",
+        " text-zinc-400 tracking-wide leading-relaxed text-sm",
         className
       )}
     >

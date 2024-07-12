@@ -37,15 +37,15 @@ const Navbar = () => {
             {userId && (
               <div className="flex gap-8">
                 <Link
-                  href="/bids/create"
-                  className={`hover:text-primary transition-all duration-150 flex items-center gap-1 ${pathname === '/bids/create' ? 'text-primary' : ''}`}
+                  href="/items/create"
+                  className={`hover:text-primary transition-all duration-150 flex items-center gap-1 ${pathname === '/items/create' ? 'text-primary' : ''}`}
                 >
                   Create Auction
                 </Link>
 
                 <Link
-                  href="/auctions"
-                  className="hover:text-primary transition-all duration-150 flex items-center gap-1"
+                  href="/my-auctions"
+                  className={`hover:text-primary transition-all duration-150 flex items-center gap-1 ${pathname === '/my-auctions' ? 'text-primary' : ''}`}
                 >
                   My Auctions
                 </Link>
