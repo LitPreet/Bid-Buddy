@@ -1,18 +1,25 @@
 "use client";
 import { signIn, useSession } from "next-auth/react";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import {
+  NotificationCell,
+  NotificationFeedPopover,
+  NotificationIconButton,
+} from "@knocklabs/react";
 import Profile from "./Profile";
-import Notification from "./Notifications";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "../toggleMode";
+import { formattedPrice, formatToDollar } from "@/lib/currency";
 
 const Navbar = () => {
   const session = useSession();
   const pathname = usePathname();
+  const [isVisible, setIsVisible] = useState(false);
+  const notifButtonRef = useRef(null);
   if (!session) return null;
-  const userId = session?.status === "authenticated";
+  const userId = session?.data?.user.id;
 
   return (
     <nav
@@ -54,10 +61,43 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex items-center gap-4">
+        {userId && (
+          <>
+          <NotificationIconButton
+                ref={notifButtonRef}
+                onClick={(e) => setIsVisible(!isVisible)}
+              />
+              
+            <div  style={{ zIndex: 1000 }}>
+              <NotificationFeedPopover
+                buttonRef={notifButtonRef}
+                isVisible={isVisible}
+                onClose={() => setIsVisible(false)}
+                renderItem={({ item, ...props }) => (
+                  <NotificationCell {...props} item={item}>
+                    <div className="rounded-xl">
+                      <Link
+                        className="text-blue-400 hover:text=blue-500"
+                        onClick={() => {
+                          setIsVisible(false);
+                        }}
+                        href={`/items/${item.data?.id}`}
+                      >
+                        Someone outbidded you on{" "}
+                        <span className="font-bold">{item.data?.itemName}</span>{" "}
+                        with ${formattedPrice(item.data?.bidAmount)}
+                      </Link>
+                    </div>
+                  </NotificationCell>
+                )}
+              
+                />
+                </div>
+            </>
+          )}
           {userId ? (
             <div className="flex gap-4">
               <ModeToggle />
-              <Notification />
               <Profile />
             </div>
           ) : (

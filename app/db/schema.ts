@@ -67,7 +67,8 @@ export const items = pgTable("bb_item", {
   currentBid: integer("currentBid").notNull().default(0),
   startingPrice: integer("startingPrice").notNull().default(0),
   fileKey: text("fileKey").notNull(),
-  bidInterval: integer("bidInterval").notNull().default(100)
+  bidInterval: integer("bidInterval").notNull().default(1),
+  endDate: timestamp("endDate", { mode: "date" }).notNull(),
 })
 
 export const bids = pgTable("bb_bids", {
@@ -77,7 +78,7 @@ export const bids = pgTable("bb_bids", {
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-    timestamp: timestamp("timestamp", { mode: "date" }).notNull(),
+  timestamp: timestamp("timestamp", { mode: "date" }).notNull(),
 })
 
 export const usersRelations = relations(bids, ({ one }) => ({
@@ -86,3 +87,5 @@ export const usersRelations = relations(bids, ({ one }) => ({
     references: [users.id],
   }),
 }));
+
+export type Item = typeof items.$inferSelect;

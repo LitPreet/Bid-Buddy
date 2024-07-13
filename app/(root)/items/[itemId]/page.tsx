@@ -4,18 +4,22 @@ import Empty from "@/public/images/empty.png";
 import Image from "next/image";
 import Link from "next/link";
 import { formatDistance } from "date-fns";
-import { formatToDollar } from "@/lib/currency";
+import { formattedPrice, formatToDollar } from "@/lib/currency";
 import { Button } from "@/components/ui/button";
 import { createBidAction } from "@/lib/actions";
 import getBidsforItem from "@/app/data-access/bids";
 import getItem from "@/app/data-access/items";
+import { auth } from "@/auth";
+import { isBidOver } from "@/lib/bids";
+import { Badge } from "@/components/ui/badge";
 
 function formatTimestamp(timestamp: Date) {
   return formatDistance(timestamp, new Date(), { addSuffix: true });
 }
 
 const page = async ({ params: { itemId } }: { params: { itemId: string } }) => {
-  const item = await getItem(itemId)
+  const item = await getItem(itemId);
+  const session = await auth();
 
   if (!item) {
     return (
@@ -47,12 +51,18 @@ const page = async ({ params: { itemId } }: { params: { itemId: string } }) => {
 
   const allBids = await getBidsforItem(itemId);
   const hasBids = allBids.length > 0;
+  const canPlaceBid = session && item.userId !== session.user.id && !isBidOver(item);;
   return (
     <main className="flex  w-full">
       <div className="flex-1 px-8">
         <h1 className="font-semibold text-2xl mt-4">
           <span className="font-normal">Auction for</span> {item.name}
         </h1>
+        {isBidOver(item) && (
+            <Badge className="w-fit" variant="destructive">
+              Bidding Over
+            </Badge>
+          )}
         <Image
           className="rounded-xl"
           src={item.fileKey}
@@ -62,30 +72,30 @@ const page = async ({ params: { itemId } }: { params: { itemId: string } }) => {
         />
         <div>
           Current Bid{" "}
-          <span className="font-bold">${formatToDollar(item.currentBid)}</span>
+          <span className="font-bold">${formattedPrice(item.currentBid)}</span>
         </div>
         <div>
           Starting Price of{" "}
           <span className="font-bold">
-            ${formatToDollar(item.startingPrice)}
+            ${formattedPrice(item.startingPrice)}
           </span>
         </div>
         <div className="space-y-4">
           Bid Interval{" "}
           <span className="font-bold dark:text-gray-400 text-gray-600">
-            ${formatToDollar(item.bidInterval)}
+            ${formattedPrice(item.bidInterval)}
           </span>
         </div>
       </div>
       <div className="flex-1">
         <div className="flex justify-between my-2">
           <h2 className="text-2xl font-bold">Current Bids</h2>
-
-          <form action={createBidAction.bind(null, item.id)}>
-            <Button>Place a Bid</Button>
-          </form>
+          {canPlaceBid && (
+            <form action={createBidAction.bind(null, item.id)}>
+              <Button>Place a Bid</Button>
+            </form>
+          )}
         </div>
-        {/* <h2 className="text-2xl font-bold my-3">Current Bids</h2> */}
         {hasBids ? (
           <ul className="space-y-4">
             {allBids.map((bid) => {
@@ -96,7 +106,7 @@ const page = async ({ params: { itemId } }: { params: { itemId: string } }) => {
                 >
                   <div className=" flex gap-4 p-4">
                     <span className="font-bold">
-                      ${formatToDollar(bid.amount)}
+                      ${formattedPrice(bid.amount)}
                     </span>
                     <span className="font-semibold">{bid.user.name}</span>
                     <span className="font-semibold">
@@ -110,9 +120,11 @@ const page = async ({ params: { itemId } }: { params: { itemId: string } }) => {
         ) : (
           <div>
             <p>No Bids yet</p>
+            {canPlaceBid && (
             <form action={createBidAction.bind(null, item.id)}>
               <Button>Place a Bid</Button>
             </form>
+          )}
           </div>
         )}
       </div>

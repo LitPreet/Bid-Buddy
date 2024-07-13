@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google"
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/app/providers/theme-providers";
 import { cn } from "@/lib/utils";
 import { SessionProvider } from "next-auth/react";
 import Navbar from "@/components/nav/Navbar";
+import { AppKnockProviders } from "./providers/NotificationProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,15 +25,18 @@ export default function RootLayout({
       <body className={`${inter.className}`}>
         {" "}
         <SessionProvider>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Navbar />
-          {children}
-        </ThemeProvider>
+          <AppKnockProviders>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Navbar />
+              {children}
+              <Toaster />
+            </ThemeProvider>
+          </AppKnockProviders>
         </SessionProvider>
       </body>
     </html>

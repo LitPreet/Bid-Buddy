@@ -21,11 +21,15 @@ import { createItemAction } from "@/lib/actions";
 import { useEffect, useState } from "react";
 import { calculateSizeAdjustValues } from "next/dist/server/font-utils";
 import Spinner from "../spinner";
+import { DatePickerDemo } from "../date-picker";
+import { useToast } from "../ui/use-toast";
 
 export function PostItem() {
   const [file, setFile] = useState<File | null>(null); // State to store the selected file
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null); // State to store the uploaded image URL
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [date, setDate] = useState<Date | undefined>();
+  const { toast } = useToast()
   const form = useForm<z.infer<typeof PostItemformSchema>>({
     resolver: zodResolver(PostItemformSchema),
     defaultValues: {
@@ -60,11 +64,19 @@ export function PostItem() {
   };
 
   async function onSubmit(data: z.infer<typeof PostItemformSchema>) {
+    if (!date) {
+      toast({
+        variant: "destructive",
+        description: "Please pick a date before submitting.",
+      })
+      return;
+    }
     setIsSubmitting(true);
     try {
+      const {name,startingPrice} = data
       const fileUrl = await handleUpload();
       if (fileUrl !== null) {
-        await createItemAction({ ...data, file: fileUrl! });
+        await createItemAction({ name, startingPrice: parseInt(startingPrice, 10), file: fileUrl! ,endDate:date});
         console.log({ ...data, file: fileUrl! });
       }
     } catch (error) {
@@ -77,7 +89,7 @@ export function PostItem() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-3 border p-3 w-1/4 border-gray-500 rounded-md"
+        className="space-y-3 border p-3 lg:w-1/4 border-gray-500 rounded-md"
       >
         <FormField
           control={form.control}
@@ -115,6 +127,7 @@ export function PostItem() {
             </FormItem>
           )}
         />
+        <DatePickerDemo date={date} setDate={setDate}/>
         <FormField
           control={form.control}
           name="file"

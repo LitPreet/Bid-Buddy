@@ -5,10 +5,13 @@ import { HoverEffect } from "@/components/ui/card-hover-effect";
 interface Props {
   items: {
     id: number;
-    name: string;
     userId: string;
+    name: string;
+    currentBid: number;
     startingPrice: number;
     fileKey: string;
+    bidInterval: number;
+    endDate: Date;
   }[];
 }
 

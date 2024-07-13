@@ -4,9 +4,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { Lock } from "lucide-react";
+import { Lock, Send } from "lucide-react";
 import { Button } from "./button";
-import { formatToDollar } from "@/lib/currency";
+import { formattedPrice, formatToDollar } from "@/lib/currency";
+import { isBidOver } from "@/lib/bids";
+import { format } from "date-fns";
 
 export const HoverEffect = ({
   items,
@@ -14,10 +16,13 @@ export const HoverEffect = ({
 }: {
   items: {
     id: number;
-    name: string;
     userId: string;
+    name: string;
+    currentBid: number;
     startingPrice: number;
     fileKey: string;
+    bidInterval: number;
+    endDate: Date;
   }[];
   className?: string;
 }) => {
@@ -67,9 +72,17 @@ export const HoverEffect = ({
           </div>
           <div className="flex justify-between items-center w-full mt-3">
             <CardTitle className="text-black dark:text-white font-semibold">{item?.name}</CardTitle>
-            <CardDescription>${formatToDollar(item?.startingPrice)}</CardDescription>
+            <CardDescription>${formattedPrice(item?.startingPrice)}</CardDescription>
           </div>
-          <Link href={`/items/${item.id}`}  className="w-full rounded-full p-2 flex items-center justify-center font-semibold text-sm mt-2 mb-0 bg-black dark:bg-gray-200 hover:bg-primary hover:dark:bg-primary hover:dark:text-white duration-150 transition-all text-white dark:text-gray-800"><Lock size={16} className="mr-1"/> Place Bid</Link>
+          {!isBidOver(item) && 
+        <p className="text-sm text-red-500 flex justify-between my-2">
+          Ends On: <span className="text-gray-600 dark:text-gray-400">{format(item.endDate, "eeee dd/M/yy")}</span>
+        </p>
+      }
+          {
+            isBidOver(item) ? (<div  className="w-full rounded-full p-2 flex items-center justify-center font-semibold text-sm mt-2 mb-0 bg-black dark:bg-gray-200 hover:bg-primary hover:dark:bg-primary hover:dark:text-white duration-150 transition-all text-white dark:text-gray-800"><Lock size={16} className="mr-1"/>Bidding is over</div>) :(<Link href={`/items/${item.id}`}  className="w-full rounded-full p-2 flex items-center justify-center font-semibold text-sm mt-2 mb-0 bg-black dark:bg-gray-200 hover:bg-primary hover:dark:bg-primary hover:dark:text-white duration-150 transition-all text-white dark:text-gray-800"><Send size={16} className="mr-1"/> Place Bid</Link>)
+          }
+        
           </Card>
         </div>
       ))}
@@ -120,7 +133,7 @@ export const CardDescription = ({
   return (
     <p
       className={cn(
-        " text-zinc-400 tracking-wide leading-relaxed text-sm",
+        " dark:text-zinc-300 text-zinc-600 tracking-wide leading-relaxed text-sm",
         className
       )}
     >
