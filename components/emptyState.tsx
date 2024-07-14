@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -21,9 +22,12 @@ const EmptyState = () => {
           </Link>
         </div>
         <div className="w-full lg:flex lg:justify-end lg:w-1/2 mx-5 my-12">
-          <img
+          <Image
             src="https://user-images.githubusercontent.com/43953425/166269493-acd08ccb-4df3-4474-95c7-ad1034d3c070.svg"
-            className=""
+            className="w-full"
+            objectFit="cover"
+            width={50}
+            height={50}
             alt="Page not found"
           />
         </div>

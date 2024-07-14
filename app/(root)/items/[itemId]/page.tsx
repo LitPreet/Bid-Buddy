@@ -37,8 +37,8 @@ const page = async ({ params: { itemId } }: { params: { itemId: string } }) => {
           Item Not Found
         </h1>
         <p className="text-zinc-400 text-center my-4 tracking-wide leading-relaxed text-sm">
-          The item you're trying to view is invalid. Please go back and search
-          for a different item.
+        The item you&apos;re trying to view is invalid. Please go back and search
+  for a different item.
         </p>
         <Link
           href="/all-auctions"
@@ -142,7 +142,7 @@ const page = async ({ params: { itemId } }: { params: { itemId: string } }) => {
                         {bid.user.name}
                       </h4>
                       <p className="text-sm mt-2 text-gray-600 dark:text-gray-100">
-                        {" "}
+                      {" "}
                         ${formattedPrice(bid.amount)}
                       </p>
                     </div>
