@@ -1,10 +1,5 @@
-'use server'
+'use client'
 import React, { useState } from 'react'
-import { Button } from "@/components/ui/button";
-import { database } from "@/app/db/database";
-import { Input } from "@/components/ui/input";
-import { createItemAction } from '@/lib/actions';
-import { DatePickerDemo } from '@/components/date-picker';
 import { PostItem } from '@/components/forms/PostItem';
 
 const page = async() => {
