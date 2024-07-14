@@ -1,6 +1,5 @@
 "use client";
 import "@knocklabs/react/dist/index.css";
-import { env } from "@/app/env";
 import { KnockProvider, KnockFeedProvider } from "@knocklabs/react";
 import { useSession } from "next-auth/react";
 
@@ -13,10 +12,10 @@ export function AppKnockProviders({ children }: { children: ReactNode }) {
   }
   return (
     <KnockProvider
-      apiKey={env.NEXT_PUBLIC_KNOCK_PUBLIC_API_KEY}
+      apiKey={process.env.NEXT_PUBLIC_KNOCK_PUBLIC_API_KEY as string}
       userId={session?.data?.user?.id ?? ""}
     >
-      <KnockFeedProvider feedId={env.NEXT_PUBLIC_KNOCK_FEED_ID}>
+      <KnockFeedProvider feedId={process.env.NEXT_PUBLIC_KNOCK_FEED_ID as string}>
         {children}
       </KnockFeedProvider>
     </KnockProvider>

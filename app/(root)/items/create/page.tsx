@@ -1,7 +1,8 @@
-"use client"
 import React from 'react';
 // import dynamic from 'next/dynamic';
 import { PostItem } from '@/components/forms/PostItem';
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 // const PostItem = dynamic(
 //   () => import('@/components/forms/PostItem').then(module => module.PostItem) as any,
 //   { ssr: false },

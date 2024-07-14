@@ -1,4 +1,3 @@
-import { env } from "@/app/env";
 import * as schema from "./schema";
 import { PostgresJsDatabase, drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
@@ -13,8 +12,8 @@ let pg: ReturnType<typeof postgres>;
 // const client = postgres(process.env.DATABASE_URL!);
 // export const db = drizzle(client);
 
-if (env.DATABASE_URL) {
-  pg = postgres(env.DATABASE_URL);
+if (process.env.DATABASE_URL) {
+  pg = postgres(process.env.DATABASE_URL);
 
   if (!global.database) {
     global.database = drizzle(pg, { schema });

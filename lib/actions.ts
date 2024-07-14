@@ -6,7 +6,6 @@ import { auth } from '@/auth';
 import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { Knock } from "@knocklabs/node"
-import { env } from "@/app/env";
 import { isBidOver } from "./bids";
 interface Props {
   name: string;
@@ -14,7 +13,7 @@ interface Props {
   file: string
   endDate: Date
 }
-const knock = new Knock(env.KNOCK_SECRET_KEY)
+const knock = new Knock(process.env.KNOCK_SECRET_KEY)
 
 export async function createItemAction({ name, startingPrice, file, endDate }: Props) {
   const session = await auth();
