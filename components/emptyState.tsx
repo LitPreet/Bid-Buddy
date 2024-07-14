@@ -14,7 +14,7 @@ const EmptyState = () => {
             Sorry we couldn't find your auctions you're looking for
           </p>
           <Link
-            href="/bids/create"
+            href="/items/create"
             className="px-5 inline py-3 text-sm font-medium leading-5 shadow-2xl text-white transition-all duration-400 border border-transparent rounded-lg focus:outline-none bg-primary hover:bg-blue-600"
           >
             Create Auction

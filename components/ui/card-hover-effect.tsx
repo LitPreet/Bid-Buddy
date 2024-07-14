@@ -61,28 +61,47 @@ export const HoverEffect = ({
             )}
           </AnimatePresence>
           <Card className="bg-white dark:bg-black border border-gray-400">
-          <div className="relative w-full" style={{ paddingBottom: '56.25%' /* 16:9 aspect ratio */ }}>
-            <Image
-              src={item?.fileKey || ""}
-              alt={item?.fileKey || ""}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-md"
-            />
-          </div>
-          <div className="flex justify-between items-center w-full mt-3">
-            <CardTitle className="text-black dark:text-white font-semibold">{item?.name}</CardTitle>
-            <CardDescription>${formattedPrice(item?.startingPrice)}</CardDescription>
-          </div>
-          {!isBidOver(item) && 
-        <p className="text-sm text-red-500 flex justify-between my-2">
-          Ends On: <span className="text-gray-600 dark:text-gray-400">{format(item.endDate, "eeee dd/M/yy")}</span>
-        </p>
-      }
-          {
-            isBidOver(item) ? (<div  className="w-full rounded-full p-2 flex items-center justify-center font-semibold text-sm mt-2 mb-0 bg-black dark:bg-gray-200 hover:bg-primary hover:dark:bg-primary hover:dark:text-white duration-150 transition-all text-white dark:text-gray-800"><Lock size={16} className="mr-1"/>Bidding is over</div>) :(<Link href={`/items/${item.id}`}  className="w-full rounded-full p-2 flex items-center justify-center font-semibold text-sm mt-2 mb-0 bg-black dark:bg-gray-200 hover:bg-primary hover:dark:bg-primary hover:dark:text-white duration-150 transition-all text-white dark:text-gray-800"><Send size={16} className="mr-1"/> Place Bid</Link>)
-          }
-        
+            <div
+              className="relative w-full"
+              style={{ paddingBottom: "56.25%" /* 16:9 aspect ratio */ }}
+            >
+              <Image
+                src={item?.fileKey || ""}
+                alt={item?.fileKey || ""}
+                layout="fill"
+                objectFit="cover"
+                className="rounded-md"
+              />
+            </div>
+            <div className="flex justify-between items-center w-full mt-3">
+              <CardTitle className="text-black dark:text-white font-semibold">
+                {item?.name}
+              </CardTitle>
+              <CardDescription>
+                ${formattedPrice(item?.startingPrice)}
+              </CardDescription>
+            </div>
+            {!isBidOver(item) && (
+              <p className="text-sm text-red-500 flex justify-between my-2">
+                Ends On:{" "}
+                <span className="text-gray-600 dark:text-gray-400">
+                  {format(item.endDate, "eeee dd/M/yy")}
+                </span>
+              </p>
+            )}
+            {isBidOver(item) ? (
+              <div className="w-full rounded-full p-2 flex items-center justify-center font-semibold text-sm mt-2 mb-0 bg-black dark:bg-gray-200 hover:bg-primary hover:dark:bg-primary hover:dark:text-white duration-150 transition-all text-white dark:text-gray-800">
+                <Lock size={16} className="mr-1" />
+                Bidding is over
+              </div>
+            ) : (
+              <Link
+                href={`/items/${item.id}`}
+                className="w-full rounded-full p-2 flex items-center justify-center font-semibold text-sm mt-2 mb-0 bg-black dark:bg-gray-200 hover:bg-primary hover:dark:bg-primary hover:dark:text-white duration-150 transition-all text-white dark:text-gray-800"
+              >
+                <Send size={16} className="mr-1" /> Place Bid
+              </Link>
+            )}
           </Card>
         </div>
       ))}

@@ -7,6 +7,7 @@ import { SessionProvider } from "next-auth/react";
 import Navbar from "@/components/nav/Navbar";
 import { AppKnockProviders } from "./providers/NotificationProvider";
 import { Toaster } from "@/components/ui/toaster";
+import Footer from "@/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,7 +34,8 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               <Navbar />
-              {children}
+              <main className="min-h-screen">{children}</main>
+              <Footer />
               <Toaster />
             </ThemeProvider>
           </AppKnockProviders>
