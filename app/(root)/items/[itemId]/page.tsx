@@ -119,7 +119,7 @@ const page = async ({ params: { itemId } }: { params: { itemId: string } }) => {
           )}
         </div>
         {hasBids ? (
-          <ul className="space-y-2 flex flex-col w-full md:w-[70%] items-start h-[600px] md:h-[500px] pr-4 overflow-y-scroll">
+          <ul className="space-y-2 flex flex-col w-full md:w-[70%] items-start h-[600px] md:h-[500px] pr-4 overflow-y-auto">
             {allBids.map((bid) => {
               return (
                 <li key={bid.id} className="w-full">

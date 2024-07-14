@@ -81,7 +81,7 @@ const Navbar = () => {
                         onClick={() => {
                           setIsVisible(false);
                         }}
-                        href={`/items/${item.data?.id}`}
+                        href={`/items/${item.data?.itemId}`}
                       >
                         Someone outbidded you on{" "}
                         <span className="font-bold">{item.data?.itemName}</span>{" "}
