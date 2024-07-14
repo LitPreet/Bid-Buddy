@@ -1,5 +1,4 @@
 "use client";
-
 import "@knocklabs/react/dist/index.css";
 import { env } from "@/app/env";
 import { KnockProvider, KnockFeedProvider } from "@knocklabs/react";
@@ -9,7 +8,9 @@ import { ReactNode } from "react";
 
 export function AppKnockProviders({ children }: { children: ReactNode }) {
   const session = useSession();
-
+  if(!session.data?.user.id){
+    return
+  }
   return (
     <KnockProvider
       apiKey={env.NEXT_PUBLIC_KNOCK_PUBLIC_API_KEY}

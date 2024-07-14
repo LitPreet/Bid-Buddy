@@ -68,8 +68,9 @@ export const HoverEffect = ({
               <Image
                 src={item?.fileKey || ""}
                 alt={item?.fileKey || ""}
-                layout="fill"
-                objectFit="cover"
+                fill
+                placeholder = "data:image/..."
+                style={{objectFit:"cover"}}
                 className="rounded-md"
               />
             </div>

@@ -29,7 +29,8 @@ const page = async ({ params: { itemId } }: { params: { itemId: string } }) => {
           <Image
             src={Empty}
             alt="emp"
-            objectFit="cover"
+            placeholder = "data:image/..."
+            style={{objectFit:"cover"}}
             className="rounded-md"
           />
         </div>
@@ -70,7 +71,7 @@ const page = async ({ params: { itemId } }: { params: { itemId: string } }) => {
           <Image
             src={item?.fileKey || ""}
             alt={item?.fileKey || ""}
-            layout="fill"
+            fill
             objectFit="cover"
             className="rounded-md"
           />
@@ -158,7 +159,7 @@ const page = async ({ params: { itemId } }: { params: { itemId: string } }) => {
                 alt="emp"
                 width={200}
                 height={200}
-                objectFit="cover"
+                style={{objectFit:"cover"}}
                 className="rounded-md"
               />
             <h1 className="text-black text-center dark:text-white font-bold text-xl sm:text-xl">
