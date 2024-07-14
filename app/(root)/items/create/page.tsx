@@ -1,9 +1,11 @@
+"use client"
 import React from 'react';
-import dynamic from 'next/dynamic';
-const PostItem = dynamic(
-  () => import('@/components/forms/PostItem').then(module => module.PostItem) as any,
-  { ssr: false },
-) as any;
+// import dynamic from 'next/dynamic';
+import { PostItem } from '@/components/forms/PostItem';
+// const PostItem = dynamic(
+//   () => import('@/components/forms/PostItem').then(module => module.PostItem) as any,
+//   { ssr: false },
+// ) as any;
 
 const page = () => {
   return (
