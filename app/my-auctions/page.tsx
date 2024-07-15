@@ -9,10 +9,12 @@ import { eq } from "drizzle-orm";
 import { Metadata } from "next";
 
 
-export const metadata: Metadata = {
-  title: "My Auctions - Bid Buddy",
-  description: "View auctions created by you on Bid Buddy.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "My Auctions - Bid Buddy",
+    description: "View auctions created by you on Bid Buddy.",
+  }
+}
 
 const page = async () => {
   const session = await auth();
