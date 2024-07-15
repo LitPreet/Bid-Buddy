@@ -6,6 +6,13 @@ import { auth } from "@/auth";
 import CardGrid from "@/components/card-grid";
 import EmptyState from "@/components/emptyState";
 import { eq } from "drizzle-orm";
+import { Metadata } from "next";
+
+
+export const metadata: Metadata = {
+  title: "My Auctions - Bid Buddy",
+  description: "View auctions created by you on Bid Buddy.",
+};
 
 const page = async () => {
   const session = await auth();
