@@ -1,5 +1,7 @@
 
 # Bid Buddy
+<img src="https://github.com/LitPreet/Bid-Buddy/blob/main/public/images/bid.png" />
+<img src="https://github.com/LitPreet/Bid-Buddy/blob/main/public/images/bid2.png" />
 
 Bid Buddy is a dynamic auction platform where anyone can sign up, place bids on listed items, and create their own items for auction. Our user-friendly interface ensures you can easily navigate through active auctions and keep track of your bids. Additionally, Bid Buddy notifies you if someone outbids you, ensuring you never miss a chance to win your desired item.
 
