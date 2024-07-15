@@ -18,10 +18,9 @@ const page = async () => {
   return (
     <div>
       {allItems && allItems.length > 0 ? (
-         <EmptyState />
-        ) : (
-          
-          <CardGrid items={allItems} />
+        <CardGrid items={allItems} />
+      ) : (
+          <EmptyState />
      )} 
     </div>
   );
