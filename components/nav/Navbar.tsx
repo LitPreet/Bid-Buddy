@@ -18,7 +18,7 @@ const Navbar = () => {
   const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(false);
   const notifButtonRef = useRef(null);
-  if (!session) return null;
+
   const userId = session?.data?.user.id;
 
   return (

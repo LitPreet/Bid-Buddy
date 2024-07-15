@@ -1,11 +1,15 @@
-'use client'
-import { motion } from "framer-motion";
-import { HeroHighlight,Highlight } from "@/components/ui/hero-highlight";
 
-export default  function Home() {
+// "use client"
 
-  return (
-    <h1>hey</h1>
+// import { motion } from "framer-motion";
+// import { HeroHighlight,Highlight } from "@/components/ui/hero-highlight";
+// import { auth } from "@/auth";
+
+export default function Page() {
+  // const session = await auth()
+  //  console.log(session);
+     return (
+    <h1 className="text-4xl text-black">hey</h1>
     // <HeroHighlight>
     //   <motion.h1
     //     initial={{

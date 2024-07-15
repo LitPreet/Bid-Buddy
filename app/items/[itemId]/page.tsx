@@ -38,7 +38,7 @@ const page = async ({ params: { itemId } }: { params: { itemId: string } }) => {
           Item Not Found
         </h1>
         <p className="text-zinc-400 text-center my-4 tracking-wide leading-relaxed text-sm">
-        The item you&apos;re trying to view is invalid. Please go back and search
+        The item you re trying to view is invalid. Please go back and search
   for a different item.
         </p>
         <Link

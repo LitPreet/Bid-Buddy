@@ -18,7 +18,6 @@ if (process.env.DATABASE_URL) {
   if (!global.database) {
     global.database = drizzle(pg, { schema });
   }
-
   database = global.database;
 } else {
   throw new Error("DATABASE_URL is not defined in environment variables.");
@@ -26,12 +25,16 @@ if (process.env.DATABASE_URL) {
 
 export { database, pg };
 
-// if (env.NODE_ENV === "production") {
-//   pg = postgres(env.DATABASE_URL);
+// if(!process.env.DATABASE_URL){
+//   return null
+// }
+
+// if (process.env.NODE_ENV === "production") {
+//   pg = postgres(process.env.DATABASE_URL as string);
 //   database = drizzle(pg, { schema });
 // } else {
 //   if (!global.database) {
-//     pg = postgres(env.DATABASE_URL);
+//     pg = postgres(process.env.DATABASE_URL as string);
 //     global.database = drizzle(pg, { schema });
 //   }
 //   database = global.database;

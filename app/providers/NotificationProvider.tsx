@@ -7,9 +7,7 @@ import { ReactNode } from "react";
 
 export function AppKnockProviders({ children }: { children: ReactNode }) {
   const session = useSession();
-  if(!session.data?.user.id){
-    return
-  }
+
   return (
     <KnockProvider
       apiKey={process.env.NEXT_PUBLIC_KNOCK_PUBLIC_API_KEY as string}
